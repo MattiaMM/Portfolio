@@ -20,10 +20,31 @@
       <div class="visual">
         <div class="solar" aria-hidden="true">
           <div class="sun"></div>
-          <div class="orbit orbit-1"><div class="planet planet-1"></div></div>
-          <div class="orbit orbit-2"><div class="planet planet-2"></div></div>
-          <div class="orbit orbit-3"><div class="planet planet-3"></div></div>
-          <div class="orbit orbit-4"><div class="planet planet-4"></div></div>
+          <!-- Orbits with varied start angles, speeds and directions -->
+          <div class="orbit orbit-1" style="--start: 25deg; --dur: 9s">
+            <div class="track">
+              <div class="planet planet-1"></div>
+            </div>
+          </div>
+          <div class="orbit orbit-2 rev" style="--start: 140deg; --dur: 14s">
+            <div class="track">
+              <div class="planet planet-2"></div>
+            </div>
+          </div>
+          <div class="orbit orbit-3" style="--start: 290deg; --dur: 20s">
+            <div class="track">
+              <div class="planet planet-3">
+                <div class="moon-orbit" style="--moon-dur: 4.8s">
+                  <div class="moon"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="orbit orbit-4" style="--start: 80deg; --dur: 28s">
+            <div class="track">
+              <div class="planet planet-4"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -125,24 +146,50 @@ const particlesOptions = computed(() => ({
 .gradient { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
 .visual { display:flex; justify-content:center; }
-.solar { position: relative; width: clamp(260px, 45vw, 440px); aspect-ratio: 1/1; border-radius: 50%; display: grid; place-items: center; filter: drop-shadow(0 0 22px rgba(139, 92, 246, .25)); }
+.solar { position: relative; width: clamp(260px, 45vw, 440px); aspect-ratio: 1/1; border-radius: 50%; display: grid; place-items: center; isolation: isolate; contain: paint; }
 .sun { width: clamp(56px, 7.2vw, 80px); height: clamp(56px, 7.2vw, 80px); border-radius: 999px; background: radial-gradient(circle at 30% 30%, #ffd36a, #ff9933 55%, #ff6b00 80%); box-shadow: 0 0 40px rgba(255, 163, 26, 0.55), 0 0 100px rgba(255, 115, 0, 0.35); }
-.orbit { position: absolute; border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 50%; animation: spin linear infinite; }
+/* Orbits */
+.orbit { position: absolute; border: 1px solid color-mix(in oklab, var(--primary) 30%, transparent); border-radius: 50%; }
+.orbit .track { position: absolute; inset: 0; transform: rotate(var(--start, 0deg)); transform-origin: 50% 50%; will-change: transform; backface-visibility: hidden; animation: spinOrbit var(--dur, 16s) linear infinite; }
+.orbit.rev .track { animation-direction: reverse; }
+/* Planet positioning anchored to the left edge so lighting faces inward (toward center) */
 .planet { position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); border-radius: 999px; }
+/* Planet shading: highlight always inward thanks to orbit rotation carrying local coords */
+.planet {
+  background: radial-gradient(circle at 75% 50%,
+    color-mix(in oklab, var(--color, #999) 95%, white) 0%,
+    color-mix(in oklab, var(--color, #999) 85%, white) 28%,
+    var(--color, #999) 58%,
+    color-mix(in oklab, var(--color, #999) 35%, black) 100%);
+  box-shadow: 0 0 10px color-mix(in oklab, var(--color, #999) 45%, transparent);
+}
+/* Planet variants (size, color, extras) */
+.planet-1 { --color: #8b5cf6; width: clamp(8px, 1.1vw, 12px); height: clamp(8px, 1.1vw, 12px); }
+.planet-2 { --color: #22d3ee; width: clamp(9px, 1.2vw, 14px); height: clamp(9px, 1.2vw, 14px); }
+.planet-3 { --color: #60a5fa; width: clamp(7px, 0.95vw, 11px); height: clamp(7px, 0.95vw, 11px); }
+.planet-4 { --color: #34d399; width: clamp(10px, 1.3vw, 16px); height: clamp(10px, 1.3vw, 16px); }
+/* Ring for planet-2 */
+.planet-2::after { content: ""; position: absolute; left: 50%; top: 50%; width: 200%; height: 70%; transform: translate(-50%, -50%) rotate(20deg); border: 1px solid color-mix(in oklab, var(--color) 45%, transparent); border-radius: 50%; opacity: .8; }
+/* Moon around planet-3 */
+.moon-orbit { position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; transform: translate(-50%, -50%); transform-origin: 50% 50%; will-change: transform; backface-visibility: hidden; border-radius: 50%; }
+.moon-orbit { animation: spinMoon var(--moon-dur, 5s) linear infinite; }
+.moon { position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%); width: 4px; height: 4px; border-radius: 50%; background: radial-gradient(circle at 70% 50%, #fff, #cbd5e1 55%, #64748b 100%); box-shadow: 0 0 6px rgba(255,255,255,.35); }
 
-/* Orbit sizes and speeds */
-.orbit-1 { width: 36%; height: 36%; animation-duration: 9s; }
-.orbit-2 { width: 52%; height: 52%; animation-duration: 14s; }
-.orbit-3 { width: 68%; height: 68%; animation-duration: 20s; }
-.orbit-4 { width: 84%; height: 84%; animation-duration: 28s; }
+/* Orbit sizes */
+.orbit-1 { width: 36%; height: 36%; }
+.orbit-2 { width: 52%; height: 52%; }
+.orbit-3 { width: 68%; height: 68%; }
+.orbit-4 { width: 84%; height: 84%; }
 
-/* Planets */
-.planet-1 { width: clamp(8px, 1.1vw, 12px); height: clamp(8px, 1.1vw, 12px); background: #8b5cf6; box-shadow: 0 0 10px rgba(139,92,246,.8); }
-.planet-2 { width: clamp(9px, 1.2vw, 14px); height: clamp(9px, 1.2vw, 14px); background: #22d3ee; box-shadow: 0 0 10px rgba(34,211,238,.8); }
-.planet-3 { width: clamp(7px, 0.95vw, 10px); height: clamp(7px, 0.95vw, 10px); background: #60a5fa; box-shadow: 0 0 10px rgba(96,165,250,.8); }
-.planet-4 { width: clamp(10px, 1.3vw, 16px); height: clamp(10px, 1.3vw, 16px); background: #34d399; box-shadow: 0 0 12px rgba(52,211,153,.8); }
+@keyframes spinOrbit {
+  from { transform: rotate(var(--start, 0deg)); }
+  to { transform: rotate(calc(var(--start, 0deg) + 360deg)); }
+}
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spinMoon {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 
 @media (max-width: 920px) {
   .hero-inner { grid-template-columns: 1fr; gap: 16px; }
@@ -150,6 +197,7 @@ const particlesOptions = computed(() => ({
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .orbit { animation-duration: 0s; }
+  .orbit .track { animation-duration: 0s; }
+  .moon-orbit { animation-duration: 0s; }
 }
 </style>
