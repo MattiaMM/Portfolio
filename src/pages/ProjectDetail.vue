@@ -3,7 +3,7 @@
     <div class="container" v-if="project">
       <RouterLink class="btn" to="/projects" style="margin-bottom:14px; display:inline-flex">← Back to projects</RouterLink>
 
-      <h1 style="margin:8px 0 6px">{{ project.title }}</h1>
+      <TypingText tag="h1" :text="project.title" style="margin:8px 0 6px" />
       <p class="muted" style="margin-top:0">{{ project.excerpt }}</p>
 
       <div class="mono" style="display:flex; gap:8px; flex-wrap:wrap; margin: 8px 0 16px">
@@ -45,6 +45,7 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import projects from '@/data/projects'
+import TypingText from '@/components/TypingText.vue'
 
 const props = defineProps<{ slug: string }>()
 const project = computed(() => projects.find(p => p.slug === props.slug))

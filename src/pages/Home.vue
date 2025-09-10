@@ -7,7 +7,8 @@
         <p class="kicker mono">Full‑Stack · Python · Automation</p>
         <h1>
           Hi, I'm <span class="gradient">Mattia De Pascalis</span>.
-          <br />I build modern web apps and CLI automation.
+          <br />
+          <TypingText tag="span" :text="'I build modern web apps and CLI automation.'" :delay="200" />
         </h1>
         <p class="sub balance">Full‑stack and Python developer based in Milan. I design and ship fast, reliable software with Vue, TypeScript, Node.js and Python.</p>
         <div class="btns">
@@ -30,7 +31,7 @@
 
   <section class="section" id="about">
     <div class="container">
-      <h2>About</h2>
+      <TypingText tag="h2" text="About" />
       <p>
         I'm a full‑stack and Python developer from Milan. I enjoy building resilient web applications, developer tooling and
         command‑line automation that saves time. My stack centers on Vue 3 + TypeScript on the frontend and Node.js / Python
@@ -55,7 +56,7 @@
 
   <section class="section" id="projects">
     <div class="container">
-      <h2>Featured Projects</h2>
+      <TypingText tag="h2" text="Featured Projects" :delay="100" />
       <div class="grid cols-3">
         <article v-for="p in topProjects" :key="p.slug" class="card">
           <h3 style="margin-top:0">{{ p.title }}</h3>
@@ -77,6 +78,7 @@
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import projects from '@/data/projects'
+import TypingText from '@/components/TypingText.vue'
 
 const topProjects = computed(() => projects.slice(0, 3))
 

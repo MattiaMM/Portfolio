@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
-      <h2>Projects</h2>
+      <TypingText tag="h2" text="Projects" />
       <p class="muted balance lead">A selection of projects with what I learned and the tech used.</p>
 
       <div class="grid cols-3 projects-grid">
@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import projects from '@/data/projects'
+import TypingText from '@/components/TypingText.vue'
 </script>
 
 <style scoped>

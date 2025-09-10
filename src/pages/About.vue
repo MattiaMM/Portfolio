@@ -1,7 +1,7 @@
 <template>
   <section class="section">
     <div class="container">
-      <h2>About</h2>
+      <TypingText tag="h2" text="About" />
       <p class="lead">
         I'm Mattia De Pascalis, a full‑stack and Python developer from Milan. I craft fast, maintainable software with
         a focus on developer experience and reliability. I enjoy building Vue frontends, Python CLI tooling and cloud‑ready backends.
@@ -50,7 +50,9 @@
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import TypingText from '@/components/TypingText.vue'
+</script>
 
 <style scoped>
 .lead { color: var(--muted); max-width: 70ch; margin-top: -4px; }
