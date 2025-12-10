@@ -93,9 +93,9 @@
 
   .card:hover::before {
     opacity: 1;
-    animation: liquid-fill 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards,
-               smoke-wave 3s ease-in-out infinite,
-               gradient-shift 4s ease infinite;
+    animation: liquid-fill 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards,
+               smoke-wave 4s ease-in-out infinite,
+               gradient-shift 5s ease infinite;
   }
 
   .card:hover::after {
