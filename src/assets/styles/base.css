@@ -1,12 +1,18 @@
 @import "tailwindcss";
 
+@theme {
+  --font-grotesk: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
 @layer base {
   html, body, #app {
     height: 100%;
   }
 
   body {
-    @apply bg-slate-950 text-gray-50 font-grotesk;
+    @apply bg-slate-950 text-gray-50;
+    font-family: theme('--font-grotesk');
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -24,7 +30,7 @@
   }
 
   .mono {
-    @apply font-mono;
+    font-family: theme('--font-mono');
   }
 
   .btn {
