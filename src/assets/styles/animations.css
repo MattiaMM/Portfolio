@@ -1,0 +1,101 @@
+/* Advanced Card Animations - Liquid/Smoke Effect */
+
+@layer utilities {
+  /* Keyframe per effetto liquido dal basso */
+  @keyframes liquid-fill {
+    0% {
+      clip-path: polygon(
+        0% 100%,
+        100% 100%,
+        100% 100%,
+        0% 100%
+      );
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        100% 100%,
+        0% 100%
+      );
+      opacity: 1;
+    }
+  }
+
+  /* Keyframe per effetto fumo ondulato */
+  @keyframes smoke-wave {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Keyframe per distorsione del gradiente */
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 0%;
+    }
+    25% {
+      background-position: 100% 0%;
+    }
+    50% {
+      background-position: 100% 100%;
+    }
+    75% {
+      background-position: 0% 100%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+
+  /* Effetto radiale dal centro */
+  @keyframes liquid-radial {
+    0% {
+      clip-path: circle(0% at 50% 50%);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.9;
+    }
+    100% {
+      clip-path: circle(150% at 50% 50%);
+      opacity: 1;
+    }
+  }
+
+  /* Utility classes */
+  .liquid-fill {
+    animation: liquid-fill 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .liquid-radial {
+    animation: liquid-radial 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .smoke-wave {
+    animation: smoke-wave 3s ease-in-out infinite;
+    background-size: 200% 200%;
+  }
+
+  .gradient-shift {
+    animation: gradient-shift 4s ease infinite;
+    background-size: 200% 200%;
+  }
+
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform, opacity, clip-path;
+  }
+
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}

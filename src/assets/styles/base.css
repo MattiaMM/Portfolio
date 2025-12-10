@@ -51,15 +51,40 @@
       repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(139, 92, 246, 0.01) 2px, rgba(139, 92, 246, 0.01) 4px);
   }
 
+  /* Liquid/Smoke Effect Layer */
   .card::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.95) 0%,
+      rgba(88, 28, 135, 0.9) 25%,
+      rgba(139, 92, 246, 0.85) 50%,
+      rgba(88, 28, 135, 0.9) 75%,
+      rgba(0, 0, 0, 0.95) 100%
+    );
+    background-size: 200% 200%;
     opacity: 0;
-    transition: opacity 0.3s ease;
     pointer-events: none;
     border-radius: 11px;
+    z-index: 0;
+  }
+
+  /* Particle Effect Overlay */
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(0, 0, 0, 0.6) 0%, transparent 50%);
+    background-size: 200% 200%;
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 11px;
+    z-index: 0;
   }
 
   .card:hover {
@@ -68,6 +93,20 @@
 
   .card:hover::before {
     opacity: 1;
+    animation: liquid-fill 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+               smoke-wave 3s ease-in-out infinite,
+               gradient-shift 4s ease infinite;
+  }
+
+  .card:hover::after {
+    opacity: 0.3;
+    animation: smoke-wave 5s ease-in-out infinite;
+  }
+
+  /* Content above liquid effect */
+  .card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .tag {
