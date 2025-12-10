@@ -1,18 +1,55 @@
 <template>
-  <section class="section">
+  <section class="py-20 md:py-28">
     <div class="container">
-      <TypingText tag="h2" text="Projects" />
-      <p class="muted balance lead">A selection of projects with what I learned and the tech used.</p>
+      <!-- Header -->
+      <div class="mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">All Projects</h1>
+        <p class="text-gray-400 text-lg max-w-2xl">
+          A selection of projects showcasing my skills and the technologies I've worked with.
+        </p>
+      </div>
 
-      <div class="grid cols-3 projects-grid">
-        <article v-for="p in projects" :key="p.slug" class="card">
-          <h3>{{ p.title }}</h3>
-          <p class="muted">{{ p.excerpt }}</p>
-          <div class="tags">
-            <span v-for="t in p.tech" :key="t" class="mono tag">{{ t }}</span>
+      <!-- Projects Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article
+          v-for="p in projects"
+          :key="p.slug"
+          class="card group hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/10 flex flex-col"
+        >
+          <!-- Project title -->
+          <h2 class="text-2xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">
+            {{ p.title }}
+          </h2>
+
+          <!-- Description -->
+          <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+            {{ p.excerpt }}
+          </p>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span
+              v-for="t in p.tech"
+              :key="t"
+              class="tag text-xs"
+            >
+              {{ t }}
+            </span>
           </div>
-          <RouterLink class="btn" :to="`/projects/${p.slug}`">Read more</RouterLink>
+
+          <!-- CTA -->
+          <RouterLink
+            :to="`/projects/${p.slug}`"
+            class="btn text-sm inline-block"
+          >
+            Read more →
+          </RouterLink>
         </article>
+      </div>
+
+      <!-- Empty State -->
+      <div v-if="projects.length === 0" class="text-center py-12">
+        <p class="text-gray-400 text-lg">No projects yet.</p>
       </div>
     </div>
   </section>
@@ -21,13 +58,4 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import projects from '@/data/projects'
-import TypingText from '@/components/TypingText.vue'
 </script>
-
-<style scoped>
-.lead { margin-top: -4px; }
-.projects-grid { margin-top: 12px; }
-article.card h3 { margin: 0 0 6px; font-size: clamp(18px, 2.2vw, 20px); }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 12px; }
-article.card:hover { border-color: color-mix(in oklab, var(--primary) 25%, var(--border)); }
-</style>

@@ -1,20 +1,96 @@
 <template>
-  <header class="site-header">
-    <div class="container inner">
-      <RouterLink class="brand" to="/">
-        <span class="dot" aria-hidden="true"></span>
-        <span>Mattia <span class="mono">De Pascalis</span></span>
+  <header class="sticky top-0 z-50 bg-dark-950 border-b border-gray-800 backdrop-blur-sm">
+    <div class="container flex items-center justify-between h-20">
+      <!-- Brand -->
+      <RouterLink to="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+        <div class="w-3 h-3 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 shadow-lg shadow-cyan-500/30"></div>
+        <span class="text-lg font-bold tracking-tight">
+          Mattia <span class="font-mono text-sm text-gray-400">De Pascalis</span>
+        </span>
       </RouterLink>
 
-      <button class="nav-toggle" @click="isOpen = !isOpen" :aria-expanded="isOpen.toString()" aria-controls="primary-nav" aria-label="Toggle navigation">
-        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      <!-- Mobile toggle -->
+      <button
+        class="hidden md:hidden flex-col gap-1.5 w-8 h-8"
+        @click="isOpen = !isOpen"
+        :aria-expanded="isOpen.toString()"
+        aria-controls="primary-nav"
+        aria-label="Toggle navigation"
+      >
+        <span class="w-5 h-0.5 bg-gray-50 transition-all duration-300" :class="{ 'rotate-45 translate-y-2': isOpen }"></span>
+        <span class="w-5 h-0.5 bg-gray-50 transition-all duration-300" :class="{ 'opacity-0': isOpen }"></span>
+        <span class="w-5 h-0.5 bg-gray-50 transition-all duration-300" :class="{ '-rotate-45 -translate-y-2': isOpen }"></span>
       </button>
 
-      <nav id="primary-nav" :class="{ open: isOpen }" aria-label="Primary">
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-        <RouterLink to="/projects">Projects</RouterLink>
-        <a href="mailto:hello@mattiadepascalis.dev" class="mono">Contact</a>
+      <!-- Desktop Navigation -->
+      <nav
+        id="primary-nav"
+        class="hidden md:flex items-center gap-8"
+        aria-label="Primary"
+      >
+        <RouterLink
+          to="/"
+          class="text-gray-200 text-sm font-medium transition-colors hover:text-cyan-400 duration-200"
+          active-class="text-cyan-400"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
+          to="/about"
+          class="text-gray-200 text-sm font-medium transition-colors hover:text-cyan-400 duration-200"
+          active-class="text-cyan-400"
+        >
+          About
+        </RouterLink>
+        <RouterLink
+          to="/projects"
+          class="text-gray-200 text-sm font-medium transition-colors hover:text-cyan-400 duration-200"
+          active-class="text-cyan-400"
+        >
+          Projects
+        </RouterLink>
+        <a
+          href="mailto:hello@mattiadepascalis.dev"
+          class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-medium hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-200"
+        >
+          Contact
+        </a>
+      </nav>
+
+      <!-- Mobile Navigation -->
+      <nav
+        v-if="isOpen"
+        class="absolute top-20 left-0 right-0 md:hidden bg-dark-900 border-b border-gray-800 flex flex-col gap-2 p-4"
+        aria-label="Mobile navigation"
+      >
+        <RouterLink
+          to="/"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          @click="isOpen = false"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
+          to="/about"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          @click="isOpen = false"
+        >
+          About
+        </RouterLink>
+        <RouterLink
+          to="/projects"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          @click="isOpen = false"
+        >
+          Projects
+        </RouterLink>
+        <a
+          href="mailto:hello@mattiadepascalis.dev"
+          class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-sm font-medium"
+          @click="isOpen = false"
+        >
+          Contact
+        </a>
       </nav>
     </div>
   </header>
@@ -26,44 +102,8 @@ import { RouterLink, useRoute } from 'vue-router'
 
 const isOpen = ref(false)
 const route = useRoute()
-watch(() => route.fullPath, () => { isOpen.value = false })
+
+watch(() => route.fullPath, () => {
+  isOpen.value = false
+})
 </script>
-
-<style scoped>
-nav { display: flex; align-items: center; }
-.nav-toggle { display: none; }
-
-@media (max-width: 720px) {
-  .inner { position: relative; }
-  .nav-toggle {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: color-mix(in oklab, var(--card) 92%, transparent);
-    color: var(--text);
-  }
-  .nav-toggle .bar { display: block; width: 18px; height: 2px; margin: 0 auto; background: var(--text); opacity: .9; }
-
-  nav {
-    position: absolute;
-    top: 100%;
-    right: 16px;
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 12px;
-    box-shadow: 0 12px 30px rgba(0,0,0,.35);
-  }
-  nav.open { display: flex; }
-  nav a { margin: 0; padding: 6px 8px; border-radius: 8px; }
-}
-</style>

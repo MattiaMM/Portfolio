@@ -1,7 +1,7 @@
 <template>
-  <div class="app">
+  <div class="flex flex-col min-h-screen">
     <SiteHeader />
-    <main id="content">
+    <main id="content" class="flex-grow">
       <RouterView />
     </main>
     <SiteFooter />
@@ -13,9 +13,3 @@ import { RouterView } from 'vue-router'
 import SiteHeader from '@/components/SiteHeader.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
 </script>
-
-<style>
-#content {
-  min-height: calc(100vh - 140px);
-}
-</style>
