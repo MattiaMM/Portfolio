@@ -35,10 +35,10 @@ interface Orb {
 let orbs: Orb[] = []
 
 const colors = [
-  'rgba(6, 182, 212, 0.8)',    // cyan
-  'rgba(59, 130, 246, 0.8)',   // blue
-  'rgba(139, 92, 246, 0.8)',   // purple
-  'rgba(34, 211, 238, 0.6)',   // light cyan
+  'rgba(139, 92, 246, 0.9)',    // violet primary
+  'rgba(124, 58, 237, 0.8)',    // violet dark
+  'rgba(167, 139, 250, 0.7)',   // violet light
+  'rgba(109, 40, 217, 0.8)',    // violet darker
 ]
 
 function initOrbs() {
@@ -146,7 +146,7 @@ function animate() {
   }
 
   // Draw connections between nearby orbs
-  ctx.strokeStyle = 'rgba(6, 182, 212, 0.1)'
+  ctx.strokeStyle = 'rgba(139, 92, 246, 0.15)'
   ctx.lineWidth = 1
   for (let i = 0; i < orbs.length; i++) {
     for (let j = i + 1; j < orbs.length; j++) {

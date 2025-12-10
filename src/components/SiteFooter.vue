@@ -1,12 +1,12 @@
 <template>
-  <footer class="border-t border-gray-800 bg-slate-950">
+  <footer class="border-t border-violet-900/30 bg-slate-950">
     <div class="container py-16 md:py-20">
       <!-- Main footer content -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
         <!-- Brand -->
         <div>
           <div class="flex items-center gap-3 mb-4">
-            <div class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 shadow-lg shadow-cyan-500/30"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-violet-500 to-violet-700 shadow-lg shadow-violet-500/40"></div>
             <span class="font-bold text-lg">Mattia De Pascalis</span>
           </div>
           <p class="text-gray-400 text-sm">Full‑Stack & Python Developer • Milan</p>
@@ -16,9 +16,9 @@
         <div>
           <h3 class="text-gray-50 font-semibold mb-4">Navigation</h3>
           <div class="flex flex-col gap-2">
-            <RouterLink to="/" class="text-gray-400 text-sm hover:text-cyan-400 transition-colors">Home</RouterLink>
-            <RouterLink to="/about" class="text-gray-400 text-sm hover:text-cyan-400 transition-colors">About</RouterLink>
-            <RouterLink to="/projects" class="text-gray-400 text-sm hover:text-cyan-400 transition-colors">Projects</RouterLink>
+            <RouterLink to="/" class="text-gray-400 text-sm hover:text-violet-300 transition-colors">Home</RouterLink>
+            <RouterLink to="/about" class="text-gray-400 text-sm hover:text-violet-300 transition-colors">About</RouterLink>
+            <RouterLink to="/projects" class="text-gray-400 text-sm hover:text-violet-300 transition-colors">Projects</RouterLink>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
               href="https://github.com/mattiadepascalis"
               target="_blank"
               rel="noreferrer noopener"
-              class="text-gray-400 text-sm hover:text-cyan-400 transition-colors flex items-center gap-2"
+              class="text-gray-400 text-sm hover:text-violet-300 transition-colors flex items-center gap-2"
             >
               GitHub
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,7 +41,7 @@
               href="https://www.linkedin.com/"
               target="_blank"
               rel="noreferrer noopener"
-              class="text-gray-400 text-sm hover:text-cyan-400 transition-colors flex items-center gap-2"
+              class="text-gray-400 text-sm hover:text-violet-300 transition-colors flex items-center gap-2"
             >
               LinkedIn
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@
             </a>
             <a
               href="mailto:hello@mattiadepascalis.dev"
-              class="text-gray-400 text-sm hover:text-cyan-400 transition-colors flex items-center gap-2"
+              class="text-gray-400 text-sm hover:text-violet-300 transition-colors flex items-center gap-2"
             >
               Email
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

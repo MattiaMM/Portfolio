@@ -8,16 +8,16 @@
         <!-- Left: Copy -->
         <div class="space-y-8">
           <div>
-            <p class="text-cyan-400 text-sm font-mono font-semibold tracking-wider mb-4">FULL‑STACK · PYTHON · AUTOMATION</p>
+            <p class="text-violet-400 text-sm font-mono font-semibold tracking-wider mb-4">FULL‑STACK · PYTHON · AUTOMATION</p>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
               Hi, I'm
-              <span class="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              <span class="bg-gradient-to-r from-violet-400 to-violet-600 bg-clip-text text-transparent">
                 Mattia De Pascalis
               </span>
             </h1>
             <div class="text-xl md:text-2xl text-gray-300 leading-relaxed">
-              I build <span class="font-semibold text-cyan-400">modern web apps</span> and
-              <TypingText tag="span" :text="'CLI automation.'" :delay="200" class="font-semibold text-cyan-400" />
+              I build <span class="font-semibold text-violet-400">modern web apps</span> and
+              <TypingText tag="span" :text="'CLI automation.'" :delay="200" class="font-semibold text-violet-400" />
             </div>
           </div>
 
@@ -28,13 +28,13 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <RouterLink
               to="/projects"
-              class="px-8 py-3 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-200 text-center sm:text-left"
+              class="px-8 py-3 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 text-white font-semibold hover:shadow-lg hover:shadow-violet-500/30 transition-all duration-200 text-center sm:text-left"
             >
               View Projects
             </RouterLink>
             <a
               href="mailto:hello@mattiadepascalis.dev"
-              class="px-8 py-3 rounded-lg border border-gray-700 text-gray-200 font-semibold hover:border-cyan-400 hover:text-cyan-400 transition-all duration-200 text-center sm:text-left"
+              class="px-8 py-3 rounded-lg border border-violet-700/50 text-gray-200 font-semibold hover:border-violet-400 hover:text-violet-300 transition-all duration-200 text-center sm:text-left"
             >
               Contact me
             </a>
@@ -59,25 +59,25 @@
 
       <!-- Skills Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="card group hover:border-cyan-400">
+        <div class="card group hover:border-violet-500/50">
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-2 h-2 rounded-full bg-cyan-400 group-hover:animate-pulse"></div>
+            <div class="w-2 h-2 rounded-full bg-violet-400 group-hover:animate-pulse"></div>
             <h3 class="text-lg font-semibold">Frontend</h3>
           </div>
           <p class="text-gray-400 text-sm">Vue 3, Vite, TypeScript, Tailwind, Animations</p>
         </div>
 
-        <div class="card group hover:border-cyan-400">
+        <div class="card group hover:border-violet-500/50">
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-2 h-2 rounded-full bg-cyan-400 group-hover:animate-pulse"></div>
+            <div class="w-2 h-2 rounded-full bg-violet-400 group-hover:animate-pulse"></div>
             <h3 class="text-lg font-semibold">Backend</h3>
           </div>
           <p class="text-gray-400 text-sm">Node.js, FastAPI, REST, WebSockets, Auth</p>
         </div>
 
-        <div class="card group hover:border-cyan-400">
+        <div class="card group hover:border-violet-500/50">
           <div class="flex items-center gap-3 mb-3">
-            <div class="w-2 h-2 rounded-full bg-cyan-400 group-hover:animate-pulse"></div>
+            <div class="w-2 h-2 rounded-full bg-violet-400 group-hover:animate-pulse"></div>
             <h3 class="text-lg font-semibold">Automation</h3>
           </div>
           <p class="text-gray-400 text-sm">Python CLI, scripting, scraping, CI/CD pipelines</p>
@@ -92,8 +92,8 @@
       <h2 class="text-3xl md:text-4xl font-bold mb-12">Featured Projects</h2>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        <article v-for="p in topProjects" :key="p.slug" class="card group hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/10 flex flex-col">
-          <h3 class="text-xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">{{ p.title }}</h3>
+        <article v-for="p in topProjects" :key="p.slug" class="card group hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10 flex flex-col">
+          <h3 class="text-xl font-bold mb-3 group-hover:text-violet-300 transition-colors">{{ p.title }}</h3>
           <p class="text-gray-400 text-sm mb-6 flex-grow">{{ p.excerpt }}</p>
 
           <div class="flex flex-wrap gap-2 mb-6">
@@ -111,7 +111,7 @@
 
       <RouterLink
         to="/projects"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-gray-700 text-gray-200 font-semibold hover:border-cyan-400 hover:text-cyan-400 transition-all duration-200"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-violet-700/50 text-gray-200 font-semibold hover:border-violet-400 hover:text-violet-300 transition-all duration-200"
       >
         Browse all projects
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

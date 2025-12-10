@@ -14,10 +14,10 @@
         <article
           v-for="p in projects"
           :key="p.slug"
-          class="card group hover:border-cyan-400 hover:shadow-lg hover:shadow-cyan-500/10 flex flex-col"
+          class="card group hover:border-violet-500/50 hover:shadow-lg hover:shadow-violet-500/10 flex flex-col"
         >
           <!-- Project title -->
-          <h2 class="text-2xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">
+          <h2 class="text-2xl font-bold mb-3 group-hover:text-violet-300 transition-colors">
             {{ p.title }}
           </h2>
 

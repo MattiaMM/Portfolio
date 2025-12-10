@@ -3,6 +3,9 @@
 @theme {
   --font-grotesk: 'Space Grotesk', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  --color-primary: #7c3aed;
+  --color-primary-dark: #6d28d9;
+  --color-primary-light: #a78bfa;
 }
 
 @layer base {
@@ -34,18 +37,71 @@
   }
 
   .btn {
-    @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-gray-700 bg-slate-900 text-gray-50 transition-all duration-200 hover:border-cyan-400 hover:shadow-lg hover:translate-y-[-2px];
+    @apply inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-violet-700/50 bg-slate-900 text-gray-50 transition-all duration-300 hover:border-violet-500 hover:shadow-lg hover:shadow-violet-500/20 hover:translate-y-[-2px];
   }
 
   .btn-primary {
-    @apply border-cyan-400 bg-cyan-600 text-white hover:bg-cyan-700;
+    @apply border-violet-500 bg-gradient-to-r from-violet-600 to-violet-700 text-white hover:from-violet-700 hover:to-violet-800 hover:shadow-lg hover:shadow-violet-500/30;
   }
 
   .card {
-    @apply bg-slate-900 border border-gray-800 rounded-xl p-5 transition-all hover:border-gray-700;
+    @apply bg-slate-900 border border-gray-800 rounded-xl p-5 transition-all duration-300 relative overflow-hidden group;
+    background-image:
+      linear-gradient(135deg, rgba(139, 92, 246, 0.02) 0%, rgba(0, 0, 0, 0) 100%),
+      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(139, 92, 246, 0.01) 2px, rgba(139, 92, 246, 0.01) 4px);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: 11px;
+  }
+
+  .card:hover {
+    @apply border-violet-500/50 shadow-lg shadow-violet-500/10;
+  }
+
+  .card:hover::before {
+    opacity: 1;
+  }
+
+  .card h2,
+  .card h3 {
+    @apply text-violet-300 transition-colors duration-300 group-hover:text-violet-200;
   }
 
   .tag {
-    @apply inline-block px-3 py-1 rounded-full border border-gray-700 bg-slate-800 text-gray-400 text-xs font-medium;
+    @apply inline-block px-3 py-1 rounded-full border border-violet-700/40 bg-slate-800 text-violet-200 text-xs font-medium transition-all duration-200 hover:border-violet-500/60 hover:bg-slate-700/80;
+  }
+
+  /* Animazioni per i riquadri */
+  @keyframes shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .card:hover {
+    animation: subtle-glow 0.6s ease-out;
+  }
+
+  @keyframes subtle-glow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+    }
+    50% {
+      box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.1);
+    }
+    100% {
+      box-shadow: 0 8px 16px 0 rgba(139, 92, 246, 0.1);
+    }
   }
 }
