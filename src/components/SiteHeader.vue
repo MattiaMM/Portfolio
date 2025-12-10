@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 z-50 bg-dark-950 border-b border-gray-800 backdrop-blur-sm">
+  <header class="sticky top-0 z-50 bg-slate-950 border-b border-gray-800 backdrop-blur-sm">
     <div class="container flex items-center justify-between h-20">
       <!-- Brand -->
       <RouterLink to="/" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
@@ -60,26 +60,26 @@
       <!-- Mobile Navigation -->
       <nav
         v-if="isOpen"
-        class="absolute top-20 left-0 right-0 md:hidden bg-dark-900 border-b border-gray-800 flex flex-col gap-2 p-4"
+        class="absolute top-20 left-0 right-0 md:hidden bg-slate-900 border-b border-gray-800 flex flex-col gap-2 p-4"
         aria-label="Mobile navigation"
       >
         <RouterLink
           to="/"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-slate-800 transition-colors"
           @click="isOpen = false"
         >
           Home
         </RouterLink>
         <RouterLink
           to="/about"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-slate-800 transition-colors"
           @click="isOpen = false"
         >
           About
         </RouterLink>
         <RouterLink
           to="/projects"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-dark-800 transition-colors"
+          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-slate-800 transition-colors"
           @click="isOpen = false"
         >
           Projects

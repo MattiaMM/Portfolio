@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-gray-800 bg-dark-950">
+  <footer class="border-t border-gray-800 bg-slate-950">
     <div class="container py-16 md:py-20">
       <!-- Main footer content -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">

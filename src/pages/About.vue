@@ -84,7 +84,7 @@
   </section>
 
   <!-- Skills Section -->
-  <section class="py-20 md:py-28 bg-dark-900">
+  <section class="py-20 md:py-28 bg-slate-900">
     <div class="container">
       <h2 class="text-3xl md:text-4xl font-bold mb-12">Technical Skills</h2>
 

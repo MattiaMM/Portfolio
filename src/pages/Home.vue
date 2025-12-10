@@ -77,7 +77,7 @@
   </section>
 
   <!-- About Section -->
-  <section class="py-20 md:py-28 bg-dark-900">
+  <section class="py-20 md:py-28 bg-slate-900">
     <div class="container">
       <h2 class="text-3xl md:text-4xl font-bold mb-8">About Me</h2>
       <p class="text-gray-300 text-lg leading-relaxed mb-12 max-w-3xl">

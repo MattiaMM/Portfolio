@@ -6,7 +6,8 @@
       "Bash(npm exec tailwindcss:*)",
       "Bash(git add:*)",
       "Bash(git commit -m \"$(cat <<''EOF''\nRedesign entire UI with Tailwind CSS - Dark Mode Premium\n\nComplete UI overhaul with modern design system:\n- Integrated Tailwind CSS for consistent styling\n- Redesigned SiteHeader with smooth animations and mobile nav\n- Premium SiteFooter with 3-column layout and social links\n- Rewrote Home.vue with hero section, animated solar system, and featured projects\n- Created modern Projects.vue gallery with responsive grid\n- Enhanced About.vue with skills showcase and experience cards\n- Updated color scheme: cyan/blue accents on dark-950 background\n- Full responsive design (mobile-first approach)\n- Gradient buttons and hover effects\n- Particle background with optimized performance\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>\nEOF\n)\")",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
