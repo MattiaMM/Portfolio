@@ -11,10 +11,10 @@
 
       <!-- Mobile toggle -->
       <button
-        class="hidden md:hidden flex-col gap-1.5 w-8 h-8"
+        class="flex md:hidden flex-col gap-1.5 w-8 h-8"
         @click="isOpen = !isOpen"
         :aria-expanded="isOpen.toString()"
-        aria-controls="primary-nav"
+        aria-controls="mobile-nav"
         aria-label="Toggle navigation"
       >
         <span class="w-5 h-0.5 bg-gray-50 transition-all duration-300" :class="{ 'rotate-45 translate-y-2': isOpen }"></span>
@@ -58,40 +58,50 @@
       </nav>
 
       <!-- Mobile Navigation -->
-      <nav
-        v-if="isOpen"
-        class="absolute top-20 left-0 right-0 md:hidden bg-slate-900 border-b border-violet-900/30 flex flex-col gap-2 p-4"
-        aria-label="Mobile navigation"
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-2"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-2"
       >
-        <RouterLink
-          to="/"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
-          @click="isOpen = false"
+        <nav
+          v-if="isOpen"
+          id="mobile-nav"
+          class="absolute top-20 left-0 right-0 md:hidden bg-slate-900 border-b border-violet-900/30 flex flex-col gap-2 p-4 z-50 shadow-xl shadow-black/50"
+          aria-label="Mobile navigation"
         >
-          Home
-        </RouterLink>
-        <RouterLink
-          to="/about"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
-          @click="isOpen = false"
-        >
-          About
-        </RouterLink>
-        <RouterLink
-          to="/projects"
-          class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
-          @click="isOpen = false"
-        >
-          Projects
-        </RouterLink>
-        <a
-          href="mailto:hello@mattiadepascalis.dev"
-          class="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 text-white text-sm font-medium"
-          @click="isOpen = false"
-        >
-          Contact
-        </a>
-      </nav>
+          <RouterLink
+            to="/"
+            class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
+            @click="isOpen = false"
+          >
+            Home
+          </RouterLink>
+          <RouterLink
+            to="/about"
+            class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
+            @click="isOpen = false"
+          >
+            About
+          </RouterLink>
+          <RouterLink
+            to="/projects"
+            class="px-4 py-2 rounded-lg text-gray-200 hover:bg-violet-900/20 hover:text-violet-300 transition-colors"
+            @click="isOpen = false"
+          >
+            Projects
+          </RouterLink>
+          <a
+            href="mailto:hello@mattiadepascalis.dev"
+            class="px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-violet-700 text-white text-sm font-medium"
+            @click="isOpen = false"
+          >
+            Contact
+          </a>
+        </nav>
+      </Transition>
     </div>
   </header>
 </template>
