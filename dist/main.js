@@ -12,7 +12,7 @@ const projects = [
         tech: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS v4", "Turbopack"],
         live: "https://brianzatendelurago.it",
         images: ["Images/BT1.png", "Images/BT2.png", "Images/BT3.png"],
-        featured: true
+        featured: false
     },
     {
         title: "Gabriel Garofalo — Servizi Editoriali",
@@ -67,7 +67,7 @@ const projects = [
         category: 'main',
         tech: ["Vue 3", "FastAPI", "PostgreSQL", "SQLAlchemy", "asyncpg", "JWT", "Nginx"],
         images: ["Images/AMM1.png", "Images/amm2.png", "Images/amm3.png", "Images/amm4.png", "Images/amm5.png", "Images/amm6.png", "Images/amm7.png", "Images/amm8.png"],
-        featured: false
+        featured: true
     },
     {
         title: "AI Based IMS Knowledge Base",
@@ -80,7 +80,7 @@ const projects = [
 ];
 const skillCategories = [
     {
-        icon: '🌐',
+        icon: '',
         title: 'Networking',
         skills: [
             { name: 'MikroTik', comment: 'RouterOS, routing dinamico, VLAN, firewall.' },
@@ -89,7 +89,7 @@ const skillCategories = [
         ]
     },
     {
-        icon: '🖥️',
+        icon: '',
         title: 'Infra & DevOps',
         skills: [
             { name: 'Proxmox', comment: 'Virtualizzazione server e container LXC.' },
@@ -99,7 +99,7 @@ const skillCategories = [
         ]
     },
     {
-        icon: '🐧',
+        icon: '',
         title: 'Sistemi Operativi',
         skills: [
             { name: 'Linux', comment: 'Fedora, Debian, Ubuntu. Amministrazione quotidiana.' },
@@ -107,17 +107,17 @@ const skillCategories = [
         ]
     },
     {
-        icon: '🐍',
+        icon: '',
         title: 'Backend & Scripting',
         skills: [
-            { name: 'Python', comment: 'Automazione, desktop GUI (PySide6/Tkinter), backend (FastAPI).' },
+            { name: 'Python', comment: 'Automazione, GUI desktop (PySide6/Tkinter), backend (FastAPI).' },
             { name: 'TypeScript', comment: 'Full-stack web con React e Vue.js.' },
             { name: 'SQL / PostgreSQL', comment: 'Modellazione dati, RLS, stored procedure.' },
             { name: 'Rust', comment: 'Programmazione di sistema e game dev (Bevy, ECS).' },
         ]
     },
     {
-        icon: '🎨',
+        icon: '',
         title: 'Frontend',
         skills: [
             { name: 'Vue.js 3', comment: 'Composition API, Pinia, Vue Router, Vite.' },
@@ -126,13 +126,14 @@ const skillCategories = [
         ]
     },
     {
-        icon: '🤖',
+        icon: '',
         title: 'AI & LLM',
         skills: [
             { name: 'Claude Code / OpenCode', comment: 'Sviluppo assistito e automazione via agenti AI.' },
             { name: 'Codex / Antigravity', comment: 'Generazione e refactoring automatico di codice.' },
             { name: 'Gemini CLI', comment: 'CLI AI per analisi e generazione contestuale.' },
             { name: 'MCP / Orchestratori', comment: 'Protocolli di contesto modulari e coordinamento multi-agente.' },
+            { name: 'LangChain / LlamaIndex', comment: 'Orchestrazione RAG e pipeline documentali.' },
             { name: 'RAG / Retrieval', comment: 'Indicizzazione documentale e retrieval vettoriale-free.' },
         ]
     },
@@ -145,7 +146,7 @@ const neofetchOutput = `
 █░░░█░█░░ █░█░░░░ ░    Kernel: 6.x.x-generic
 █░░ █░████ ░█░░░░░     Shell: Kitty
  ░░  ░░░░░░ ░░░        Projects: Main, Hobby, WIP
-  ░   ░ ░░░░  ░        Status: Enthusiast
+   ░   ░ ░░░░  ░        Status: Developer
 `;
 const terminalSequence = [
     { type: 'prompt', text: '$ whoami' },
@@ -615,9 +616,9 @@ function renderProjectGrid(filter = 'all') {
 }
 function categoryLabel(cat) {
     switch (cat) {
-        case 'main': return '● Main';
+        case 'main': return '● Professionale';
         case 'hobby': return '◐ Hobby';
-        case 'wip': return '◌ In Corso';
+        case 'wip': return '◌ In sviluppo';
         default: return cat;
     }
 }
@@ -641,7 +642,7 @@ function renderSkills() {
     grid.innerHTML = skillCategories.map(cat => `
     <div class="skill-card reveal">
       <div class="skill-card__header">
-        <span class="skill-card__icon">${cat.icon}</span>
+        ${cat.icon ? `<span class="skill-card__icon">${cat.icon}</span>` : ''}
         <h3 class="skill-card__title">${escapeHtml(cat.title)}</h3>
       </div>
       ${cat.skills.length > 0 ? `
@@ -729,6 +730,18 @@ function initHamburger() {
         });
     });
 }
+// ---------- SCROLL TO TOP ----------
+function initScrollTop() {
+    const btn = document.getElementById('scroll-top');
+    if (!btn)
+        return;
+    window.addEventListener('scroll', () => {
+        btn.classList.toggle('scroll-top--visible', window.scrollY > 400);
+    });
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
 // ---------- INIT ----------
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
@@ -741,6 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initScrollSpy();
     initHamburger();
+    initScrollTop();
     // Add reveal classes to static sections
     document.querySelectorAll('.about__content, .contact__text, .contact__links').forEach(el => {
         el.classList.add('reveal');

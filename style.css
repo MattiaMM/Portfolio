@@ -257,12 +257,12 @@ a:hover {
     transparent 50%
   );
   pointer-events: none;
-  animation: heroGlow 8s ease-in-out infinite alternate;
+  animation: heroGlow 15s ease-in-out infinite alternate;
 }
 
 @keyframes heroGlow {
-  0% { opacity: 0.6; transform: translate(0, 0); }
-  100% { opacity: 1; transform: translate(2%, -2%); }
+  0% { opacity: 0.3; transform: translate(0, 0); }
+  100% { opacity: 0.6; transform: translate(1%, -1%); }
 }
 
 .hero__container {
@@ -317,7 +317,10 @@ a:hover {
   min-height: 200px;
   max-height: 420px;
   overflow-y: auto;
+  overflow-x: hidden;
   color: var(--terminal-text);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .terminal__line {
@@ -1007,6 +1010,40 @@ a:hover {
   color: var(--text-muted);
 }
 
+/* ---------- SCROLL-TO-TOP ---------- */
+.scroll-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  z-index: 100;
+  box-shadow: 0 4px 16px var(--accent-glow-strong);
+}
+
+.scroll-top--visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-top:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
 /* ---------- SCROLL REVEAL ---------- */
 .reveal {
   opacity: 0;
@@ -1097,5 +1134,29 @@ a:hover {
   .contact__btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .terminal__body {
+    font-size: 0.68rem;
+    padding: 12px;
+    max-height: 320px;
+    line-height: 1.6;
+  }
+
+  .terminal__topbar {
+    padding: 8px 12px;
+  }
+
+  .terminal__title {
+    font-size: 0.7rem;
+  }
+
+  .terminal {
+    border-radius: var(--radius-sm);
+  }
+
+  .hero__cta {
+    font-size: 0.85rem;
+    padding: 12px 20px;
   }
 }
