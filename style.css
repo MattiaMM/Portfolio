@@ -310,6 +310,7 @@ a:hover {
 }
 
 .terminal__body {
+  position: relative;
   padding: 20px;
   font-family: var(--font-mono);
   font-size: 0.9rem;
@@ -344,6 +345,25 @@ a:hover {
   color: var(--terminal-text);
 }
 
+.neofetch {
+  display: flex;
+  gap: 24px;
+  color: var(--terminal-text);
+  font-family: var(--font-mono);
+  font-size: inherit;
+  line-height: 1.8;
+}
+
+.neofetch__art {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.neofetch__info {
+  flex: 1;
+  margin: 0;
+}
+
 .terminal__cursor {
   display: inline-block;
   width: 8px;
@@ -351,6 +371,21 @@ a:hover {
   background: var(--terminal-text);
   vertical-align: text-bottom;
   animation: blink 1s step-end infinite;
+}
+
+.terminal__input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
 }
 
 @keyframes blink {
@@ -1087,6 +1122,13 @@ a:hover {
   .terminal__body {
     font-size: 0.8rem;
     padding: 16px;
+    max-height: 360px;
+  }
+
+  .neofetch {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.78rem;
   }
 
   .about__content {
@@ -1137,10 +1179,10 @@ a:hover {
   }
 
   .terminal__body {
-    font-size: 0.68rem;
+    font-size: 0.7rem;
     padding: 12px;
-    max-height: 320px;
-    line-height: 1.6;
+    max-height: 300px;
+    line-height: 1.5;
   }
 
   .terminal__topbar {
@@ -1153,6 +1195,11 @@ a:hover {
 
   .terminal {
     border-radius: var(--radius-sm);
+  }
+
+  .neofetch {
+    font-size: 0.65rem;
+    gap: 4px;
   }
 
   .hero__cta {

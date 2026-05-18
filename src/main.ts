@@ -167,18 +167,39 @@ const skillCategories: SkillCategory[] = [
 
 // ---------- TERMINAL ANIMATION ----------
 
-const neofetchOutput = `
-█   █ ████  ████       Mattia@Portfolio
-██ ██░█░░░█ █░░░█      -----------------
-█░█ █░█░░░█░████░░     OS: Fedora Linux
-█░░░█░█░░ █░█░░░░ ░    Kernel: 6.x.x-generic
-█░░ █░████ ░█░░░░░     Shell: Kitty
- ░░  ░░░░░░ ░░░        Projects: Main, Hobby, WIP
-   ░   ░ ░░░░  ░        Status: Developer
-`;
+const neofetchArt = [
+  '█   █ ████  ████',
+  '██ ██░█░░░█ █░░░█',
+  '█░█ █░█░░░█░████░░',
+  '█░░░█░█░░ █░█░░░░ ░',
+  '█░░ █░████ ░█░░░░░',
+  ' ░░  ░░░░░░ ░░░',
+  '  ░   ░ ░░░░  ░',
+].join('\n');
+
+const neofetchInfo = [
+  'Mattia@Portfolio',
+  '-----------------',
+  'OS: Fedora Linux',
+  'Kernel: 6.x.x-generic',
+  'Shell: Kitty',
+  'Projects: Main, Hobby, WIP',
+  'Status: Developer',
+].join('\n');
+
+const neofetchOutput = neofetchArt + '       ' + neofetchInfo.replace(/\n/g, '\n       ');
+
+function renderNeofetch(): string {
+  return `
+    <div class="neofetch">
+      <pre class="neofetch__art">${escapeHtml(neofetchArt)}</pre>
+      <pre class="neofetch__info">${escapeHtml(neofetchInfo)}</pre>
+    </div>
+  `;
+}
 
 interface TerminalLine {
-  type: 'prompt' | 'output' | 'pre';
+  type: 'prompt' | 'output' | 'pre' | 'neofetch';
   text: string;
 }
 
@@ -186,7 +207,7 @@ const terminalSequence: TerminalLine[] = [
   { type: 'prompt', text: '$ whoami' },
   { type: 'output', text: 'mattia-de-pascalis' },
   { type: 'prompt', text: '$ neofetch' },
-  { type: 'pre', text: neofetchOutput },
+  { type: 'neofetch', text: '' },
   { type: 'prompt', text: '$ _' },
 ];
 
@@ -249,7 +270,7 @@ const terminalCommands: Record<string, (args: string[]) => string | Promise<stri
     ].join('\n');
   },
 
-  neofetch: () => neofetchOutput,
+  neofetch: () => '__NEOFETCH__',
 
   whoami: () => 'mattia-de-pascalis',
 
@@ -320,7 +341,11 @@ async function handleCommand(cmd: string, body: HTMLElement): Promise<void> {
   if (result === '__RESET__') {
     body.innerHTML = '';
     terminalOutput(body, 'mattia-de-pascalis');
-    terminalAppend(body, `<pre class="terminal__pre">${escapeHtml(neofetchOutput)}</pre>`);
+    const line = document.createElement('div');
+    line.className = 'terminal__line';
+    line.innerHTML = renderNeofetch();
+    body.appendChild(line);
+    body.scrollTop = body.scrollHeight;
     return;
   }
   if (result === '__SL__') {
@@ -329,6 +354,14 @@ async function handleCommand(cmd: string, body: HTMLElement): Promise<void> {
   }
   if (result === '__CAFFE__') {
     await animateCaffe(body);
+    return;
+  }
+  if (result === '__NEOFETCH__') {
+    const line = document.createElement('div');
+    line.className = 'terminal__line';
+    line.innerHTML = renderNeofetch();
+    body.appendChild(line);
+    body.scrollTop = body.scrollHeight;
     return;
   }
   terminalOutput(body, result);
@@ -352,56 +385,56 @@ async function animateCaffe(body: HTMLElement): Promise<void> {
 }
 
 function initInteractiveTerminal(body: HTMLElement): void {
-  let input = '';
+  const hiddenInput = document.createElement('input');
+  hiddenInput.type = 'text';
+  hiddenInput.className = 'terminal__input';
+  hiddenInput.autocomplete = 'off';
+  hiddenInput.spellcheck = false;
+  hiddenInput.setAttribute('autocorrect', 'off');
+  hiddenInput.setAttribute('autocapitalize', 'off');
+  hiddenInput.setAttribute('inputmode', 'text');
+  body.appendChild(hiddenInput);
+
   let activePromptEl: HTMLDivElement | null = body.querySelector<HTMLDivElement>('.terminal__line:last-child');
 
   function updatePrompt(): void {
     if (activePromptEl) {
-      activePromptEl.innerHTML = `<span class="terminal__prompt">$ ${escapeHtml(input)}</span><span class="terminal__cursor"></span>`;
+      activePromptEl.innerHTML = `<span class="terminal__prompt">$ ${escapeHtml(hiddenInput.value)}</span><span class="terminal__cursor"></span>`;
     }
   }
 
   function submit(): void {
-    if (!input.trim()) {
-      input = '';
-      updatePrompt();
-      return;
-    }
-    // Remove cursor from prompt line
+    const cmd = hiddenInput.value.trim();
+    hiddenInput.value = '';
+    updatePrompt();
+    if (!cmd) return;
+
     if (activePromptEl) {
-      activePromptEl.innerHTML = `<span class="terminal__prompt">$ ${escapeHtml(input)}</span>`;
+      activePromptEl.innerHTML = `<span class="terminal__prompt">$ ${escapeHtml(cmd)}</span>`;
     }
-    const cmd = input;
-    input = '';
     handleCommand(cmd, body).then(() => {
-      // New prompt after output
       activePromptEl = document.createElement('div');
       activePromptEl.className = 'terminal__line';
       activePromptEl.innerHTML = `<span class="terminal__prompt">$ </span><span class="terminal__cursor"></span>`;
       body.appendChild(activePromptEl);
       body.scrollTop = body.scrollHeight;
+      setTimeout(() => hiddenInput.focus(), 50);
     });
   }
 
-  document.addEventListener('keydown', function handler(e: KeyboardEvent) {
-    // Only handle when terminal animation has finished (prompt has cursor)
-    if (!activePromptEl || !activePromptEl.querySelector('.terminal__cursor')) return;
-    // Don't capture if user is typing in an input elsewhere
-    if ((e.target as HTMLElement)?.tagName === 'INPUT' || (e.target as HTMLElement)?.tagName === 'TEXTAREA') return;
-
+  hiddenInput.addEventListener('input', updatePrompt);
+  hiddenInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       submit();
-    } else if (e.key === 'Backspace') {
-      e.preventDefault();
-      input = input.slice(0, -1);
-      updatePrompt();
-    } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      input += e.key;
-      updatePrompt();
     }
   });
+
+  // Initial focus
+  setTimeout(() => hiddenInput.focus(), 200);
+
+  // Re-focus on terminal click
+  body.addEventListener('click', () => hiddenInput.focus());
 }
 
 function initTerminal(): void {
@@ -455,6 +488,12 @@ function initTerminal(): void {
       setTimeout(typeNext, 500);
     } else if (line.type === 'pre') {
       currentLineEl.innerHTML = `<pre class="terminal__pre">${escapeHtml(line.text)}</pre>`;
+      charIndex = 0;
+      lineIndex++;
+      body!.scrollTop = body!.scrollHeight;
+      setTimeout(typeNext, 500);
+    } else if (line.type === 'neofetch') {
+      currentLineEl.innerHTML = renderNeofetch();
       charIndex = 0;
       lineIndex++;
       body!.scrollTop = body!.scrollHeight;
