@@ -282,15 +282,6 @@ a:hover {
   max-width: 780px;
 }
 
-.hero__eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 16px;
-}
-
 .hero__headline {
   font-size: clamp(1.7rem, 4vw, 2.4rem);
   font-weight: 700;
@@ -435,7 +426,9 @@ a:hover {
 
 .neofetch {
   display: flex;
-  gap: 24px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
   color: var(--terminal-text);
   font-family: var(--font-mono);
   font-size: inherit;
@@ -448,7 +441,7 @@ a:hover {
 }
 
 .neofetch__info {
-  flex: 1;
+  flex: 0 1 auto;
   margin: 0;
 }
 
@@ -1540,6 +1533,11 @@ code {
   .neofetch {
     font-size: 0.65rem;
     gap: 4px;
+  }
+
+  /* Il monogramma è già in navbar e favicon: su schermo stretto vale il pannello info. */
+  .neofetch__art {
+    display: none;
   }
 
   .hero__cta {

@@ -236,38 +236,36 @@ const skillAreas = [
     },
 ];
 // ---------- TERMINAL: NEOFETCH ----------
+// Monogramma "MDP" (ANSI Shadow, 29 colonne x 6 righe).
 const neofetchArt = [
-    '█   █ ████  ████',
-    '██ ██░█░░░█ █░░░█',
-    '█░█ █░█░░░█░████░░',
-    '█░░░█░█░░ █░█░░░░ ░',
-    '█░░ █░████ ░█░░░░░',
-    ' ░░  ░░░░░░ ░░░',
-    '  ░   ░ ░░░░  ░',
+    '███╗   ███╗ ██████╗  ██████╗ ',
+    '████╗ ████║ ██╔══██╗ ██╔══██╗',
+    '██╔████╔██║ ██║  ██║ ██████╔╝',
+    '██║╚██╔╝██║ ██║  ██║ ██╔═══╝ ',
+    '██║ ╚═╝ ██║ ██████╔╝ ██║     ',
+    '╚═╝     ╚═╝ ╚═════╝  ╚═╝     ',
 ].join('\n');
 const neofetchInfo = [
     'Mattia@Portfolio',
-    '-----------------',
-    'OS: Fedora Linux',
-    'Kernel: Linux 7.x',
+    '----------------',
+    'OS: Fedora Linux 43',
     'Shell: kitty',
-    'Role: AI Software Engineer',
-    'Focus: Agentic systems / Distributed backend',
+    'Stack: Python, TypeScript, Rust',
+    'Data: PostgreSQL, Redis, SQLite',
+    'Edge: Astro, Next.js @ Vercel',
+    'Agents: Claude Code, Hermes, MCP',
+    'Status: open to work',
 ].join('\n');
 function renderNeofetch() {
-    return `
-    <div class="neofetch">
-      <pre class="neofetch__art">${escapeHtml(neofetchArt)}</pre>
-      <pre class="neofetch__info">${escapeHtml(neofetchInfo)}</pre>
-    </div>
-  `;
+    // Nessun whitespace tra i tag: il contenitore è pre-wrap e gli spazi
+    // verrebbero resi come righe vuote, forzando lo scroll del terminale.
+    return `<div class="neofetch"><pre class="neofetch__art">${escapeHtml(neofetchArt)}</pre><pre class="neofetch__info">${escapeHtml(neofetchInfo)}</pre></div>`;
 }
 const terminalSequence = [
     { type: 'prompt', text: '$ whoami' },
-    { type: 'output', text: 'mattia-de-pascalis — AI Software Engineer & Systems Developer' },
+    { type: 'output', text: 'mattia-de-pascalis' },
     { type: 'prompt', text: '$ neofetch' },
     { type: 'neofetch', text: '' },
-    { type: 'output', text: 'Suggerimento: "workflow" mostra la pipeline agentica, "help" elenca tutti i comandi.' },
 ];
 // ---------- TERMINAL: COMANDI ----------
 const pipelineChain = methodologySteps.map(step => step.pipelineLabel);
