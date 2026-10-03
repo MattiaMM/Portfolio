@@ -5,7 +5,7 @@ Portfolio personale di Mattia De Pascalis — Developer & Computer Enthusiast.
 ## Tecnologie
 
 - **HTML5 / CSS3** — Design system custom con temi chiaro/scuro
-- **TypeScript** — Logica client-side (terminale interattivo, caroselli, lightbox)
+- **TypeScript** — Logica client-side (terminale interattivo, caroselli, lightbox, case study)
 - **Font Geist** — Tipografia moderna via Google Fonts
 
 ## Struttura
@@ -13,7 +13,7 @@ Portfolio personale di Mattia De Pascalis — Developer & Computer Enthusiast.
 ```
 index.html      — Shell HTML semantica single-page
 src/main.ts     — Logica TypeScript (terminal, progetti, skills, UI)
-style.css       — Design system completo (893+ linee)
+style.css       — Design system completo (1560+ linee)
 dist/main.js    — Output compilato (entry point browser)
 Images/         — Screenshot e asset dei progetti
 ```
