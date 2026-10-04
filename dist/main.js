@@ -1,10 +1,76 @@
 "use strict";
 // ===================================================
-// PORTFOLIO — Mattia De Pascalis
-// AI Software Engineer & Systems Developer
-// Terminal, case study, matrice competenze, interazioni
+// PORTFOLIO — logica client-side
+// Terminale, case study, matrice competenze, interazioni
 // ===================================================
-const GITHUB_URL = 'https://github.com/MattiaMM';
+// ---------- IDENTITÀ (fonte unica: il terminale deriva da qui) ----------
+const profile = {
+    name: 'Mattia De Pascalis',
+    role: 'AI Software Engineer & Systems Developer',
+    /** Utente e host del terminale: prompt, titolo finestra e pannello neofetch. */
+    user: 'mattia',
+    host: 'portfolio',
+    github: 'https://github.com/MattiaMM',
+    status: 'open to work',
+    /** Righe del pannello neofetch, nell'ordine di visualizzazione. */
+    neofetch: {
+        OS: 'Fedora Linux 43',
+        Shell: 'kitty',
+        Stack: 'Python, TypeScript, Rust',
+        Data: 'PostgreSQL, Redis, SQLite',
+        Edge: 'Astro, Next.js @ Vercel',
+        Agents: 'Claude Code, Hermes, MCP',
+    },
+};
+/** Handle restituito dal comando `whoami`. */
+const profileSlug = profile.name.toLowerCase().replace(/\s+/g, '-');
+// ---------- PREFERENZE UTENTE ----------
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ---------- SISTEMA AGENTICO (fonte condivisa: caso flagship + terminale) ----------
+const agenticCapabilities = [
+    {
+        pillar: {
+            title: 'Tooling esteso: MCP & custom skills',
+            items: [
+                'Model Context Protocol per collegare gli agenti a risorse esterne: ispezione di schemi PostgreSQL/SQLite, lettura di documentazione tecnica, orchestrazione di processi host.',
+                'Skill e tool deterministici — estrazione metadati DB, calcolo di hash crittografici, scaffolding di boilerplate — per non delegare al calcolo probabilistico operazioni che devono restare riproducibili.',
+            ],
+        },
+    },
+    {
+        pillar: {
+            title: 'Memoria & continuous alignment',
+            items: [
+                'Separazione netta tra working memory volatile e memoria a lungo termine persistita su SQLite (<code>state.db</code>).',
+                'Sliding window orientata agli ultimi mesi di attività e compattazione asincrona delle decisioni superate: contesto rigidamente entro l\'hard cap di 4.000 token, con headroom a 8.000 solo per task complessi.',
+                'Eval loop con cron job in background: analisi dei log di esecuzione e degli errori di generazione per distillare nuove regole e guardrail nel system prompt.',
+            ],
+        },
+        terminal: {
+            label: 'MEMORY',
+            lines: ['state.db persistent memory', '(4k hard-cap, sliding window, auto-compaction)'],
+        },
+    },
+    {
+        terminal: {
+            label: 'EVAL',
+            lines: ['Automated cron-based prompt drift mitigation & log analysis'],
+        },
+    },
+    {
+        pillar: {
+            title: 'Sicurezza operativa: least privilege & HITL',
+            items: [
+                'Autonomia read-only completa: ispezione file, analisi statica, cat, ls, ricerca.',
+                'Side-effect gate: autorizzazione umana esplicita e preventiva per ogni mutazione distruttiva — <code>rm</code>, modifiche di rete, overwrite di file non tracciati da Git, script con privilegi di root.',
+            ],
+        },
+        terminal: {
+            label: 'SAFETY',
+            lines: ['Read-only autonomy + Human-in-the-loop', 'on side-effect / destructive commands'],
+        },
+    },
+];
 // ---------- CASE STUDY (flagship, ordine = densità ingegneristica) ----------
 const caseStudies = [
     {
@@ -12,11 +78,7 @@ const caseStudies = [
         tech: ['Claude Code', 'Hermes', 'Sub-Agents', 'Context Engineering', 'MCP', 'Python', 'SQLite'],
         problem: 'Lo sviluppo assistito da LLM degrada sulle codebase complesse: la finestra di contesto si satura, le istruzioni si contraddicono tra sessioni e le regressioni sfuggono alla revisione manuale. Serviva un ambiente in cui l\'agente operasse con contesto delimitato, memoria durevole e verifiche automatiche.',
         architecture: [
-            'Orchestrazione a sub-agenti con contesto isolato: ogni task riceve solo l\'interfaccia necessaria, eliminando la propagazione del context rot alla sessione esecutiva.',
-            'Memoria a lungo termine su <code>state.db</code> (SQLite) separata dalla working memory volatile: sliding window orientata agli ultimi mesi di attività, hard cap a 4.000 token con headroom estendibile a 8.000 e compattazione asincrona delle decisioni superate.',
-            'Continuous alignment loop: cron job in background che analizza log di esecuzione ed errori di generazione per distillare nuove guardrail e aggiornare il system prompt.',
-            'Tooling esteso via Model Context Protocol (ispezione schemi PostgreSQL/SQLite, documentazione tecnica, processi host) e skill deterministiche per le operazioni che devono restare riproducibili.',
-            'Guardrail di minimo privilegio: autonomia read-only completa e side-effect gate con autorizzazione umana esplicita su <code>rm</code>, modifiche di rete e overwrite di file non tracciati da Git.',
+            'Ambiente agentico: orchestrazione a sub-agenti con contesto isolato, tooling MCP, memoria persistente su <code>state.db</code> e guardrail di minimo privilegio. Il dettaglio operativo è nella sezione <a href="#methodology">Methodology</a>.',
         ],
         outcome: 'Ogni step del ciclo di sviluppo produce un artefatto verificabile — vincolo, specifica, test — e la sessione resta riprendibile anche a distanza di mesi. Trade-off accettato: l\'orchestrazione a sub-agenti costa più token per task e richiede disciplina nel versionare le spec, che è esattamente il prezzo dell\'assenza di context rot.',
     },
@@ -141,35 +203,13 @@ const modelMatrix = [
         name: 'Hermes — open-weight, self-hosted',
         role: 'System discovery, machine audit & brainstorming',
         rationale: 'Tool calling nativo e reasoning aperto: ispezione dell\'ambiente host, scandaglio del filesystem, gestione di state.db e prime bozze di architettura senza rate limiting né latenza di rete.',
+        terminal: 'Hermes (Local / Tool-Calling / Audit)',
     },
     {
         name: 'Claude Code / Pi — modelli di frontiera',
         role: 'Deep execution & complex refactoring',
         rationale: 'Riservati all\'implementazione ad alta densità sintattica, dove servono attention window ampia e sintesi multi-file su refactoring critici e algoritmi complessi.',
-    },
-];
-const agenticPillars = [
-    {
-        title: 'Tooling esteso: MCP & custom skills',
-        items: [
-            'Model Context Protocol per collegare gli agenti a risorse esterne: ispezione di schemi PostgreSQL/SQLite, lettura di documentazione tecnica, orchestrazione di processi host.',
-            'Skill e tool deterministici — estrazione metadati DB, calcolo di hash crittografici, scaffolding di boilerplate — per non delegare al calcolo probabilistico operazioni che devono restare riproducibili.',
-        ],
-    },
-    {
-        title: 'Memoria & continuous alignment',
-        items: [
-            'Separazione netta tra working memory volatile e memoria a lungo termine persistita su SQLite (<code>state.db</code>).',
-            'Sliding window orientata agli ultimi mesi di attività e compattazione asincrona delle decisioni superate: contesto rigidamente entro l\'hard cap di 4.000 token, con headroom a 8.000 solo per task complessi.',
-            'Eval loop con cron job in background: analisi dei log di esecuzione e degli errori di generazione per distillare nuove regole e guardrail nel system prompt.',
-        ],
-    },
-    {
-        title: 'Sicurezza operativa: least privilege & HITL',
-        items: [
-            'Autonomia read-only completa: ispezione file, analisi statica, cat, ls, ricerca.',
-            'Side-effect gate: autorizzazione umana esplicita e preventiva per ogni mutazione distruttiva — <code>rm</code>, modifiche di rete, overwrite di file non tracciati da Git, script con privilegi di root.',
-        ],
+        terminal: 'Claude Code / Pi (Deep Implementation)',
     },
 ];
 // ---------- MATRICE COMPETENZE ----------
@@ -245,16 +285,14 @@ const neofetchArt = [
     '██║ ╚═╝ ██║ ██████╔╝ ██║     ',
     '╚═╝     ╚═╝ ╚═════╝  ╚═╝     ',
 ].join('\n');
+const neofetchHeader = [profile.user, profile.host]
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('@');
 const neofetchInfo = [
-    'Mattia@Portfolio',
-    '----------------',
-    'OS: Fedora Linux 43',
-    'Shell: kitty',
-    'Stack: Python, TypeScript, Rust',
-    'Data: PostgreSQL, Redis, SQLite',
-    'Edge: Astro, Next.js @ Vercel',
-    'Agents: Claude Code, Hermes, MCP',
-    'Status: open to work',
+    neofetchHeader,
+    '-'.repeat(neofetchHeader.length),
+    ...Object.entries(profile.neofetch).map(([label, value]) => `${label}: ${value}`),
+    `Status: ${profile.status}`,
 ].join('\n');
 function renderNeofetch() {
     // Nessun whitespace tra i tag: il contenitore è pre-wrap e gli spazi
@@ -274,13 +312,14 @@ const workflowReport = [
     '',
     `[PIPELINE]   ${pipelineChain.slice(0, 2).join(' -> ')}`,
     `             -> ${pipelineChain.slice(2).join(' -> ')}`,
-    '[MODELS]     Hermes (Local / Tool-Calling / Audit)',
-    '             + Claude Code / Pi (Deep Implementation)',
-    '[MEMORY]     state.db persistent memory',
-    '             (4k hard-cap, sliding window, auto-compaction)',
-    '[EVAL]       Automated cron-based prompt drift mitigation & log analysis',
-    '[SAFETY]     Read-only autonomy + Human-in-the-loop',
-    '             on side-effect / destructive commands',
+    `[MODELS]     ${modelMatrix[0].terminal}`,
+    `             + ${modelMatrix[1].terminal}`,
+    ...agenticCapabilities.flatMap(capability => capability.terminal && capability.terminal.lines.length > 0
+        ? [
+            `[${capability.terminal.label}]`.padEnd(13) + capability.terminal.lines[0],
+            ...capability.terminal.lines.slice(1).map(line => '             ' + line),
+        ]
+        : []),
 ].join('\n');
 const fortunes = [
     'Talk is cheap. Show me the code. — L. Torvalds',
@@ -301,7 +340,7 @@ function projectsReport(filter) {
         if (filter === 'flagship') {
             return `FLAGSHIP CASE STUDIES\n\n${flagships}`;
         }
-        const additional = projects.map(project => `  ▸ ${project.title} [${project.category}]\n     ${project.tech.join(' · ')}${project.github ? `\n     ${project.github}` : ''}${project.live ? `\n     ${project.live}` : ''}`).join('\n\n');
+        const additional = projects.map(project => `  ▸ ${project.title} [${project.category}]\n     ${project.tech.join(' · ')}${project.live ? `\n     ${project.live}` : ''}`).join('\n\n');
         return `FLAGSHIP CASE STUDIES\n\n${flagships}\n\nADDITIONAL SYSTEMS & TOOLING\n\n${additional}`;
     }
     const filtered = projects.filter(project => project.category === filter);
@@ -342,13 +381,13 @@ const terminalCommands = {
         return `cat: ${args[0] || ''}: No such file or directory`;
     },
     contact: () => [
-        `GitHub: ${GITHUB_URL}`,
+        `GitHub: ${profile.github}`,
         '',
         'Disponibile per ruoli e collaborazioni su sistemi agentici,',
         'backend distribuiti e firmware industriale.',
     ].join('\n'),
     neofetch: () => '__NEOFETCH__',
-    whoami: () => 'mattia-de-pascalis — AI Software Engineer & Systems Developer',
+    whoami: () => `${profileSlug} — ${profile.role}`,
     ls: () => 'CLAUDE.md  architecture.md  methodology.md  projects/  skills.json  state.db',
     clear: () => '__RESET__',
     fortune: () => fortunes[Math.floor(Math.random() * fortunes.length)],
@@ -373,11 +412,13 @@ const terminalCommands = {
         return `sudo: ${args.join(' ')}: command not found`;
     },
 };
+/** Nomi dei comandi disponibili: alimenta il completamento con Tab. */
+const commandNames = Object.keys(terminalCommands).sort();
 // ---------- TERMINAL: HELPERS ----------
+const escapeBuffer = document.createElement('div');
 function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    escapeBuffer.textContent = text;
+    return escapeBuffer.innerHTML;
 }
 function terminalAppend(body, html) {
     const line = document.createElement('div');
@@ -401,11 +442,7 @@ async function handleCommand(command, body) {
     const result = await handler(args);
     if (result === '__RESET__') {
         body.innerHTML = '';
-        const line = document.createElement('div');
-        line.className = 'terminal__line';
-        line.innerHTML = renderNeofetch();
-        body.appendChild(line);
-        body.scrollTop = body.scrollHeight;
+        terminalAppend(body, renderNeofetch());
         return;
     }
     if (result === '__SL__') {
@@ -417,11 +454,7 @@ async function handleCommand(command, body) {
         return;
     }
     if (result === '__NEOFETCH__') {
-        const line = document.createElement('div');
-        line.className = 'terminal__line';
-        line.innerHTML = renderNeofetch();
-        body.appendChild(line);
-        body.scrollTop = body.scrollHeight;
+        terminalAppend(body, renderNeofetch());
         return;
     }
     if (result === '__WORKFLOW__') {
@@ -431,6 +464,10 @@ async function handleCommand(command, body) {
     terminalOutput(body, result);
 }
 async function animateCaffe(body) {
+    if (prefersReducedMotion) {
+        terminalOutput(body, '☕ Caffè pronto.');
+        return;
+    }
     terminalOutput(body, '☕ Erogazione caffè in corso...');
     const bar = document.createElement('div');
     bar.className = 'terminal__line terminal__output';
@@ -450,6 +487,17 @@ let terminalRunner = null;
 const pendingCommands = [];
 function initInteractiveTerminal(body) {
     let activeInput = null;
+    const commandHistory = [];
+    let historyCursor = 0;
+    let historyDraft = '';
+    // Su puntatore coarse (touch) il focus automatico aprirebbe la tastiera
+    // virtuale all'avvio: lì il terminale si attiva solo al tocco.
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    // La sequenza di apertura è già stata mostrata: da qui in poi il contenuto
+    // del terminale è interattivo e va annunciato dagli screen reader.
+    body.setAttribute('role', 'log');
+    body.setAttribute('aria-live', 'polite');
+    body.setAttribute('aria-label', 'Output del terminale');
     function createPromptLine() {
         const wrapper = document.createElement('div');
         wrapper.className = 'terminal__line terminal__line--input';
@@ -466,10 +514,48 @@ function initInteractiveTerminal(body) {
         input.setAttribute('inputmode', 'text');
         input.setAttribute('aria-label', 'Comando terminale');
         input.addEventListener('keydown', (event) => {
-            if (event.key !== 'Enter')
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                submit(input);
                 return;
-            event.preventDefault();
-            submit(input);
+            }
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (commandHistory.length === 0)
+                    return;
+                const step = event.key === 'ArrowUp' ? 1 : -1;
+                if (step === 1 && historyCursor === 0)
+                    historyDraft = input.value;
+                historyCursor = Math.min(Math.max(historyCursor + step, 0), commandHistory.length);
+                input.value = historyCursor === 0
+                    ? historyDraft
+                    : commandHistory[commandHistory.length - historyCursor];
+                return;
+            }
+            if (event.key === 'Tab') {
+                // Il focus deve restare libero di uscire dal terminale: Tab viene
+                // intercettato solo quando c'è davvero un completamento da offrire.
+                const partial = input.value.trim().toLowerCase();
+                const matches = partial === '' ? [] : commandNames.filter(name => name.startsWith(partial));
+                if (matches.length === 0)
+                    return;
+                event.preventDefault();
+                if (matches.length === 1) {
+                    input.value = `${matches[0]} `;
+                    return;
+                }
+                input.value = matches.reduce((a, b) => {
+                    let i = 0;
+                    while (i < a.length && i < b.length && a[i] === b[i])
+                        i++;
+                    return a.slice(0, i);
+                });
+                terminalOutput(body, matches.join('  '));
+                return;
+            }
+            if (event.key === 'Escape') {
+                input.blur();
+            }
         });
         wrapper.appendChild(prompt);
         wrapper.appendChild(input);
@@ -492,12 +578,17 @@ function initInteractiveTerminal(body) {
         if (command === '')
             return;
         freeze(input, command);
+        if (commandHistory[commandHistory.length - 1] !== command)
+            commandHistory.push(command);
+        historyCursor = 0;
+        historyDraft = '';
         activeInput = null;
         void handleCommand(command, body).then(focusNew);
     }
     function focusNew() {
         activeInput = createPromptLine();
-        activeInput.focus();
+        if (!coarsePointer)
+            activeInput.focus({ preventScroll: true });
         const queued = pendingCommands.shift();
         if (queued === undefined || !activeInput)
             return;
@@ -510,7 +601,7 @@ function initInteractiveTerminal(body) {
             const target = event.target;
             if (target.tagName === 'INPUT' || target.closest('a, button'))
                 return;
-            activeInput?.focus();
+            activeInput?.focus({ preventScroll: true });
         });
     }
     terminalRunner = (command) => {
@@ -527,6 +618,13 @@ function initTerminal() {
     const body = document.getElementById('terminal-body');
     if (!body)
         return;
+    const title = document.querySelector('.terminal__title');
+    if (title)
+        title.textContent = `${profile.user}@${profile.host}:~`;
+    // Con "riduci movimento" la sequenza si compone senza animazione: stessi
+    // passaggi, ritardi azzerati.
+    const startDelay = prefersReducedMotion ? 0 : 500;
+    const lineDelay = prefersReducedMotion ? 0 : 320;
     let lineIndex = 0;
     let charIndex = 0;
     let currentLineEl = null;
@@ -549,7 +647,7 @@ function initTerminal() {
                 currentLineEl.innerHTML = `<span class="terminal__prompt">${escapeHtml(typed)}</span><span class="terminal__cursor"></span>`;
                 charIndex++;
                 body.scrollTop = body.scrollHeight;
-                setTimeout(typeNext, 25 + Math.random() * 20);
+                setTimeout(typeNext, prefersReducedMotion ? 0 : 25 + Math.random() * 20);
                 return;
             }
             currentLineEl.innerHTML = `<span class="terminal__prompt">${escapeHtml(line.text)}</span>`;
@@ -566,9 +664,9 @@ function initTerminal() {
         charIndex = 0;
         lineIndex++;
         body.scrollTop = body.scrollHeight;
-        setTimeout(typeNext, 320);
+        setTimeout(typeNext, lineDelay);
     }
-    setTimeout(typeNext, 500);
+    setTimeout(typeNext, startDelay);
 }
 // ---------- TERMINAL: SCORCIATOIE ----------
 const terminalShortcuts = [
@@ -673,7 +771,7 @@ function initLightbox() {
     <button class="lightbox__close" aria-label="Chiudi">✕</button>
     <button class="lightbox__prev" aria-label="Precedente">‹</button>
     <button class="lightbox__next" aria-label="Successiva">›</button>
-    <img class="lightbox__image" src="" alt="" />
+    <img class="lightbox__image" alt="" />
   `;
     document.body.appendChild(lightbox);
     lightbox.addEventListener('click', (e) => {
@@ -736,17 +834,24 @@ function navigateLightbox(direction) {
         img.src = lightboxState.images[lightboxState.index];
 }
 // ---------- RENDER: CASE STUDY ----------
+function renderTechBadges(tech) {
+    const badges = tech.map(item => `<span class="tech-badge">${escapeHtml(item)}</span>`);
+    return badges.join('');
+}
+function renderProjectLinks(live) {
+    const anchor = live
+        ? `<a href="${live}" class="project-card__link" target="_blank" rel="noopener">Live →</a>`
+        : '';
+    return anchor ? `<div class="project-card__links">${anchor}</div>` : '';
+}
 function renderCaseStudy(study, index, hero) {
-    const links = [
-        study.live ? `<a href="${study.live}" class="project-card__link" target="_blank" rel="noopener">Live →</a>` : '',
-    ].filter(Boolean).join('');
     return `
     <article class="project-case reveal${hero ? ' project-case--hero' : ''}">
       <header class="project-case__header">
         <span class="project-case__index">${String(index + 1).padStart(2, '0')} / Flagship</span>
         <h3 class="project-case__title">${escapeHtml(study.title)}</h3>
         <div class="project-case__tech">
-          ${study.tech.map(t => `<span class="tech-badge">${escapeHtml(t)}</span>`).join('')}
+          ${renderTechBadges(study.tech)}
         </div>
       </header>
       <div class="project-case__body">
@@ -763,7 +868,7 @@ function renderCaseStudy(study, index, hero) {
         <section class="project-case__block">
           <h4 class="project-case__label">Risultato &amp; trade-off</h4>
           <p class="project-case__text">${escapeHtml(study.outcome)}</p>
-          ${links ? `<div class="project-card__links">${links}</div>` : ''}
+          ${renderProjectLinks(study.live)}
         </section>
       </div>
       ${study.images && study.images.length > 0
@@ -794,28 +899,18 @@ function renderProjectGrid(filter = 'all') {
     const filtered = filter === 'all'
         ? projects
         : projects.filter(project => project.category === filter);
-    if (filtered.length === 0) {
-        grid.innerHTML = `
-      <div class="project-empty reveal">
-        <p>// Nessun progetto in questa categoria.</p>
-      </div>
-    `;
-        initScrollReveal();
-        return;
-    }
-    grid.innerHTML = filtered.map(project => `
+    grid.innerHTML = filtered.length === 0
+        ? '<div class="project-empty reveal"><p>// Nessun progetto in questa categoria.</p></div>'
+        : filtered.map(project => `
     <div class="project-card reveal" data-category="${project.category}">
       ${project.images && project.images.length > 0 ? renderCarousel(project.images, project.title, 'project-card__image') : ''}
       <span class="project-card__category">${categoryLabel(project.category)}</span>
       <h3 class="project-card__title">${escapeHtml(project.title)}</h3>
       <p class="project-card__desc">${escapeHtml(project.description)}</p>
       <div class="project-card__tech">
-        ${project.tech.map(t => `<span class="tech-badge">${escapeHtml(t)}</span>`).join('')}
+        ${renderTechBadges(project.tech)}
       </div>
-      <div class="project-card__links">
-        ${project.github ? `<a href="${project.github}" class="project-card__link" target="_blank" rel="noopener">GitHub →</a>` : ''}
-        ${project.live ? `<a href="${project.live}" class="project-card__link" target="_blank" rel="noopener">Live →</a>` : ''}
-      </div>
+      ${renderProjectLinks(project.live)}
     </div>
   `).join('');
     initScrollReveal();
@@ -868,14 +963,14 @@ function renderMethodology() {
           </div>
         `).join('')}
       </div>
-      ${agenticPillars.map(pillar => `
+      ${agenticCapabilities.map(capability => capability.pillar ? `
         <div class="methodology__pillar reveal">
-          <h3 class="methodology__pillar-title">${escapeHtml(pillar.title)}</h3>
+          <h3 class="methodology__pillar-title">${escapeHtml(capability.pillar.title)}</h3>
           <ul class="methodology__list">
-            ${pillar.items.map(item => `<li>${item}</li>`).join('')}
+            ${capability.pillar.items.map(item => `<li>${item}</li>`).join('')}
           </ul>
         </div>
-      `).join('')}
+      ` : '').join('')}
     `;
     }
 }
@@ -918,22 +1013,20 @@ function initThemeToggle() {
     });
 }
 // ---------- SCROLL REVEAL ----------
-function initScrollReveal() {
-    const elements = document.querySelectorAll('.reveal:not(.visible)');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, index * 100);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px'
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, index) => {
+        if (!entry.isIntersecting)
+            return;
+        setTimeout(() => entry.target.classList.add('visible'), index * 100);
+        revealObserver.unobserve(entry.target);
     });
-    elements.forEach(el => observer.observe(el));
+}, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+});
+/** Registra all'observer condiviso gli elementi `.reveal` non ancora mostrati. */
+function initScrollReveal() {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
 }
 // ---------- SCROLL SPY ----------
 function initScrollSpy() {
@@ -969,13 +1062,19 @@ function initHamburger() {
     const links = document.querySelector('.nav__links');
     if (!btn || !links)
         return;
+    const setOpen = (open) => {
+        links.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+    };
     btn.addEventListener('click', () => {
-        links.classList.toggle('open');
+        setOpen(!links.classList.contains('open'));
     });
     document.querySelectorAll('.nav__link').forEach(link => {
-        link.addEventListener('click', () => {
-            links.classList.remove('open');
-        });
+        link.addEventListener('click', () => setOpen(false));
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && links.classList.contains('open'))
+            setOpen(false);
     });
 }
 // ---------- SCROLL TO TOP ----------
@@ -992,6 +1091,11 @@ function initScrollTop() {
 }
 // ---------- INIT ----------
 document.addEventListener('DOMContentLoaded', () => {
+    // Gli elementi statici non nascono con `.reveal`: lo assegniamo prima del
+    // render, così la passata finale di initScrollReveal() li copre tutti.
+    document.querySelectorAll('.methodology__lead, .projects__lead, .skills__lead').forEach(el => {
+        el.classList.add('reveal');
+    });
     initThemeToggle();
     initTerminalShortcuts();
     initTerminal();
@@ -1005,8 +1109,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollSpy();
     initHamburger();
     initScrollTop();
-    document.querySelectorAll('.about__content, .methodology__lead, .contact__text, .contact__links').forEach(el => {
-        el.classList.add('reveal');
-    });
-    initScrollReveal();
 });

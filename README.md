@@ -1,6 +1,6 @@
 # MDP Portfolio
 
-Portfolio personale di Mattia De Pascalis — Developer & Computer Enthusiast.
+Portfolio personale di Mattia De Pascalis — AI Software Engineer & Systems Developer.
 
 ## Tecnologie
 
@@ -13,7 +13,7 @@ Portfolio personale di Mattia De Pascalis — Developer & Computer Enthusiast.
 ```
 index.html      — Shell HTML semantica single-page
 src/main.ts     — Logica TypeScript (terminal, progetti, skills, UI)
-style.css       — Design system completo (1560+ linee)
+style.css       — Design system completo (token chiaro/scuro, sezioni, componenti)
 dist/main.js    — Output compilato (entry point browser)
 Images/         — Screenshot e asset dei progetti
 ```
